@@ -1,0 +1,16 @@
+RewriteEngine On
+
+DirectoryIndex public/index.php
+
+RewriteRule ^login\.php$ src/views/login.php [L]
+RewriteRule ^login/?$ src/views/login.php [L]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^category/([0-9]+)$ category.php?id=$1 [QSA,L]
+RewriteRule ^recipe/([0-9]+)$ recipe.php?id=$1 [QSA,L]
+RewriteRule ^search$ search.php [QSA,L]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^ public/index.php [L]
