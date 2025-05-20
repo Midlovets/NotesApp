@@ -60,6 +60,16 @@ class NoteController {
         }
     }
 
+    public function addNote($userId, $title, $content, $tags = [], $categoryId = null) {
+        $noteId = $this->noteModel->createNote($userId, $title, $content);
+        if ($categoryId) {
+            $this->noteModel->updateNoteCategory($noteId, $categoryId);
+        }
+        if (!empty($tags)) {
+            $this->noteModel->updateNoteTags($noteId, $tags);
+        }
+    }
+
     public function deleteNote($noteId, $userId) {
         $this->noteModel->deleteNote($noteId, $userId);
     }

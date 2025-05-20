@@ -411,40 +411,60 @@
                     <?php endforeach; ?>
                 <?php endif; ?>
             </select>
-            <button class="add-note-btn">+ Додати нотатку</button>
+            <a href="/public/note.php" class="add-note-btn" style="text-align:center; text-decoration:none;">+ Додати нотатку</a>
         </div>
         <div class="notes-list">
             <?php if (!empty($notes)): ?>
                 <?php foreach ($notes as $note): ?>
-                    <a href="/public/note.php?id=<?= $note['id']; ?>" class="note-card-link">
-                        <div class="note-card">
-                            <div class="note-title-row">
-                                <!-- Можно добавить иконку категории, если есть -->
-                                <span class="note-title"><?= htmlspecialchars($note['title']); ?></span>
-                            </div>
-                            <div class="note-tags">
-                                <?php if (!empty($note['tags'])): ?>
-                                    <?php foreach ($note['tags'] as $tag): ?>
-                                        <span class="note-tag"><?= htmlspecialchars($tag['name']); ?></span>
-                                    <?php endforeach; ?>
-                                <?php endif; ?>
-                            </div>
-                            <div class="note-content"><?= htmlspecialchars(mb_substr($note['content'], 0, 180)); ?><?= mb_strlen($note['content']) > 180 ? '...' : '' ?></div>
-                            <div class="note-footer">
-                                <div class="note-date"><?= htmlspecialchars($note['created_at']); ?></div>
-                                <div class="note-actions">
-                                    <button class="note-action-btn" title="Редагувати"><i class="fas fa-edit"></i></button>
-                                    <button class="note-action-btn" title="Видалити"><i class="fas fa-trash"></i></button>
-                                </div>
+                    <div class="note-card">
+                        <div class="note-title-row">
+                            <span class="note-title"><?= htmlspecialchars($note['title']); ?></span>
+                        </div>
+                        <div class="note-tags">
+                            <?php if (!empty($note['tags'])): ?>
+                                <?php foreach ($note['tags'] as $tag): ?>
+                                    <span class="note-tag"><?= htmlspecialchars($tag['name']); ?></span>
+                                <?php endforeach; ?>
+                            <?php endif; ?>
+                        </div>
+                        <div class="note-content"><?= htmlspecialchars(mb_substr($note['content'], 0, 180)); ?><?= mb_strlen($note['content']) > 180 ? '...' : '' ?></div>
+                        <div class="note-footer">
+                            <div class="note-date"><?= htmlspecialchars($note['created_at']); ?></div>
+                            <div class="note-actions" style="display: flex; gap: 0.5rem; align-items: center;">
+                                <a href="/public/note.php?id=<?= $note['id']; ?>" class="note-action-btn" title="Редагувати" style="display: flex; align-items: center; justify-content: center; width: 38px; height: 38px;">
+                                    <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+                                        <path d="M4 17.5V18.5H5H17H18V17.5V15.5V14.5H17H5H4V15.5V17.5Z" stroke="#FFD924" stroke-width="2"/>
+                                        <path d="M16.1213 5.87868C16.5118 5.48816 16.5118 4.85499 16.1213 4.46447L15.5355 3.87868C15.145 3.48816 14.5118 3.48816 14.1213 3.87868L6 12V15H9L16.1213 7.87868Z" stroke="#FFD924" stroke-width="2"/>
+                                    </svg>
+                                </a>
+                                <form method="post" action="/public/note.php?id=<?= $note['id']; ?>" style="display:inline;">
+                                    <button type="submit" name="delete" class="note-action-btn" title="Видалити" onclick="return confirm('Видалити нотатку?');" style="background:none; border:none; padding:0; display: flex; align-items: center; justify-content: center; width: 38px; height: 38px;">
+                                        <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+                                            <path d="M6 7V17C6 18.1046 6.89543 19 8 19H14C15.1046 19 16 18.1046 16 17V7" stroke="#FFD924" stroke-width="2"/>
+                                            <path d="M3 7H19" stroke="#FFD924" stroke-width="2"/>
+                                            <path d="M9 10V15" stroke="#FFD924" stroke-width="2"/>
+                                            <path d="M13 10V15" stroke="#FFD924" stroke-width="2"/>
+                                            <path d="M8 7V5C8 3.89543 8.89543 3 10 3H12C13.1046 3 14 3.89543 14 5V7" stroke="#FFD924" stroke-width="2"/>
+                                        </svg>
+                                    </button>
+                                </form>
                             </div>
                         </div>
-                    </a>
+                    </div>
                 <?php endforeach; ?>
             <?php else: ?>
                 <p class="not-found">У вас ще немає нотаток.</p>
             <?php endif; ?>
         </div>
     </div>
+
+    <script>
+        // Закрытие модального окна по клику вне формы
+        window.onclick = function(event) {
+            var modal = document.getElementById('addNoteModal');
+            if (event.target === modal) modal.style.display = "none";
+        }
+    </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js" crossorigin="anonymous"></script>
 </body>
 </html>

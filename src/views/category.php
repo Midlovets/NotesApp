@@ -156,10 +156,19 @@
                         <div class="note-footer">
                             <div class="note-date"><?= htmlspecialchars($note['created_at']); ?></div>
                             <div class="note-actions">
-                                <a href="/public/note.php?id=<?= $note['id']; ?>" class="note-action-btn" title="Редагувати"><i class="fas fa-edit"></i></a>
-                                <form method="post" action="/public/note.php?id=<?= $note['id']; ?>" style="display:inline;">
-                                    <button type="submit" name="delete" class="note-action-btn" title="Видалити" onclick="return confirm('Видалити нотатку?');">
-                                        <i class="fas fa-trash"></i>
+                                <a href="/public/note.php?id=<?= $note['id']; ?>" class="note-action-btn" title="Редагувати">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                                <form method="post" action="/public/note.php?id=<?= $note['id']; ?>&redirect=category&id=<?= (int)($category['id'] ?? 0) ?>" style="display:inline;">
+                                    <button type="submit" name="delete" class="note-action-btn" title="Видалити" onclick="return confirm('Видалити нотатку?');" style="background:none; border:none; padding:0;">
+                                        <!-- SVG корзини -->
+                                        <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+                                            <path d="M6 7V17C6 18.1046 6.89543 19 8 19H14C15.1046 19 16 18.1046 16 17V7" stroke="#FFD924" stroke-width="2"/>
+                                            <path d="M3 7H19" stroke="#FFD924" stroke-width="2"/>
+                                            <path d="M9 10V15" stroke="#FFD924" stroke-width="2"/>
+                                            <path d="M13 10V15" stroke="#FFD924" stroke-width="2"/>
+                                            <path d="M8 7V5C8 3.89543 8.89543 3 10 3H12C13.1046 3 14 3.89543 14 5V7" stroke="#FFD924" stroke-width="2"/>
+                                        </svg>
                                     </button>
                                 </form>
                             </div>

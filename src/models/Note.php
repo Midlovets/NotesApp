@@ -149,5 +149,12 @@ class Note {
         $stmt = $this->pdo->prepare("DELETE FROM notes WHERE id = ? AND user_id = ?");
         $stmt->execute([$noteId, $userId]);
     }
+
+    // Создать новую нотатку
+    public function createNote($userId, $title, $content) {
+        $stmt = $this->pdo->prepare("INSERT INTO notes (user_id, title, content, created_at, updated_at) VALUES (?, ?, ?, NOW(), NOW())");
+        $stmt->execute([$userId, $title, $content]);
+        return $this->pdo->lastInsertId();
+    }
 }
 ?>

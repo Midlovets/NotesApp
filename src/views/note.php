@@ -323,13 +323,13 @@
             </div>
         </div>
     </nav>
-    <form class="details-main" method="post" action="note.php?id=<?= (int)$note['id'] ?>" id="noteForm" autocomplete="off">
+    <form class="details-main" method="post" action="note.php<?= isset($note['id']) ? '?id=' . (int)$note['id'] : '' ?>" id="noteForm" autocomplete="off">
         <div class="details-header">
             <span class="note-category-icon"><i class="fas fa-lightbulb"></i></span>
-            <input type="text" class="details-title-input" name="title" value="<?= htmlspecialchars($note['title']); ?>" required>
+            <input type="text" class="details-title-input" name="title" value="<?= isset($note['title']) ? htmlspecialchars($note['title']) : '' ?>" required>
         </div>
         <div class="details-meta">
-            <span><?= htmlspecialchars($note['created_at']); ?></span>
+            <span><?= isset($note['created_at']) ? htmlspecialchars($note['created_at']) : date('Y-m-d H:i') ?></span>
             <span>Категорія:
                 <select name="category_id" style="background: none; color: #FFD924; border: none; font-weight: 500;">
                     <?php foreach ($categories as $cat): ?>
@@ -352,12 +352,14 @@
                 <button type="button" class="add-tag-btn" id="addTagBtn">OK</button>
             </span>
         </div>
-        <input type="hidden" name="tags" id="tagsInput" value="<?= htmlspecialchars(implode(',', array_column($tags ?? [], 'name'))); ?>">
-        <textarea class="details-content-area" name="content" required><?= htmlspecialchars($note['content']); ?></textarea>
+        <input type="hidden" name="tags" id="tagsInput" value="<?= htmlspecialchars(isset($tags) ? implode(',', array_column($tags, 'name')) : ''); ?>">
+        <textarea class="details-content-area" name="content" required><?= isset($note['content']) ? htmlspecialchars($note['content']) : '' ?></textarea>
         <div class="details-actions">
             <a href="notes.php" class="btn btn-back"><i class="fas fa-arrow-left"></i> Назад</a>
-            <button type="submit" name="save" class="btn btn-save"><i class="fas fa-save"></i> Зберегти</button>
-            <button type="submit" name="delete" class="btn btn-delete" onclick="return confirm('Видалити нотатку?');"><i class="fas fa-trash"></i> Видалити</button>
+            <button type="submit" name="save" class="btn btn-save"><i class="fas fa-save"></i> <?= isset($note['id']) ? 'Зберегти' : 'Створити' ?></button>
+            <?php if (isset($note['id'])): ?>
+                <button type="submit" name="delete" class="btn btn-delete" onclick="return confirm('Видалити нотатку?');"><i class="fas fa-trash"></i> Видалити</button>
+            <?php endif; ?>
         </div>
     </form>
     <script>
