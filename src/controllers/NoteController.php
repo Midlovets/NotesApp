@@ -74,4 +74,3 @@ class NoteController {
         $this->noteModel->deleteNote($noteId, $userId);
     }
 }
-?>
