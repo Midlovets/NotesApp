@@ -15,7 +15,7 @@ class Note {
             FROM notes n
             JOIN note_categories nc ON n.id = nc.note_id
             WHERE nc.category_id = ?
-            ORDER BY n.created_at DESC
+            ORDER BY n.updated_at DESC, n.created_at DESC
         ");
         $stmt->execute([$categoryId]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -72,7 +72,7 @@ class Note {
             $query .= " WHERE " . implode(' AND ', $where);
         }
 
-        $query .= " ORDER BY n.created_at DESC";
+        $query .= " ORDER BY n.updated_at DESC, n.created_at DESC";
         $stmt = $this->pdo->prepare($query);
         $stmt->execute($params);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -97,7 +97,7 @@ class Note {
         $stmt = $this->pdo->prepare("
             SELECT * FROM notes
             WHERE user_id = ?
-            ORDER BY created_at DESC
+            ORDER BY updated_at DESC, created_at DESC
         ");
         $stmt->execute([$userId]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);

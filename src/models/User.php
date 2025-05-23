@@ -88,10 +88,13 @@ class User {
             $stmt = $this->pdo->prepare("SELECT profile_photo FROM users WHERE id = ?");
             $stmt->execute([$userId]);
             $user = $stmt->fetch(PDO::FETCH_ASSOC);
-            return $user['profile_photo'] ?? '/images/default_profile.png';
+            
+            // Return the actual profile photo path or null if not set
+            // This way the view can decide whether to show SVG or image
+            return $user ? $user['profile_photo'] : null;
         } catch (PDOException $e) {
             error_log('Помилка отримання профілю: ' . $e->getMessage());
-            return '/images/default_profile.png';
+            return null;
         }
     }
 

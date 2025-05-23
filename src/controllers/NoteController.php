@@ -45,6 +45,11 @@ class NoteController {
 
     public function searchNotes($keyword, $userId = null, $categoryId = null) {
         $results = $this->noteModel->searchNotes($keyword, $userId, $categoryId);
+        // Добавляем теги к каждой найденной заметке
+        foreach ($results as &$note) {
+            $note['tags'] = $this->noteModel->getTags($note['id']);
+        }
+        unset($note);
         $categories = $this->categoryModel->getAllCategories();
         include __DIR__ . '/../views/search.php';
     }

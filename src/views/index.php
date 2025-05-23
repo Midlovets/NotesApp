@@ -29,9 +29,12 @@
       align-items: center;
       padding: 1rem 3rem;
     }
-
+    
     .logo {
-      font-size: 1.8rem;
+      display: flex;
+      align-items: center;
+      gap: 0.2em;
+      font-size: 2.1rem;
       font-weight: bold;
       text-decoration: none;
     }
@@ -116,23 +119,23 @@
     }
 
     .hero h1 {
-  font-size: 4rem; /* великий */
-  font-weight: 400; /* тонкий */
-  line-height: 1.2; /* трохи ближче один до одного */
-  margin-bottom: 1rem;
-  background: linear-gradient(to right, #AD6000, #FFD924);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-}
+    font-size: 4rem; /* великий */
+    font-weight: 400; /* тонкий */
+    line-height: 1.2; /* трохи ближче один до одного */
+    margin-bottom: 1rem;
+    background: linear-gradient(to right, #AD6000, #FFD924);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
 
-.hero-subtitle {
-  font-size: 1.8rem; /* великий текст під заголовком */
-  font-weight: 400; /* тонкий */
-  opacity: 0.9;
-  margin-bottom: 2rem;
-  max-width: 800px;
-}
+  .hero-subtitle {
+    font-size: 1.8rem; /* великий текст під заголовком */
+    font-weight: 400; /* тонкий */
+    opacity: 0.9;
+    margin-bottom: 2rem;
+    max-width: 800px;
+  }
 
 
 
@@ -260,7 +263,7 @@
       Всі ідеї та записи — в одному місці.
     </p>
     <div class="hero-cta">
-      <a href="#" class="btn btn-primary">Почати</a>
+      <a href="/public/login.php" class="btn btn-primary">Почати</a>
     </div>
     <div class="visual-elements">
       <img src="/images/figure-left.png" alt="Left figure" class="figure-left">

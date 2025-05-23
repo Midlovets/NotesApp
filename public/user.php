@@ -27,7 +27,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $profilePhotoPath = $currentProfilePhoto;
 
         if (isset($_FILES['profile_photo']) && $_FILES['profile_photo']['error'] === UPLOAD_ERR_OK) {
-            $uploadDir = __DIR__ . '/../images/profile_photos/';
+            $uploadDir = __DIR__ . '/images/profile_photos/';
+            
+            // Create directory if it doesn't exist
+            if (!is_dir($uploadDir)) {
+                mkdir($uploadDir, 0755, true);
+            }
+            
             $fileName = basename($_FILES['profile_photo']['name']);
             $fileExt = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
             $allowedExtensions = ['jpg', 'jpeg', 'png', 'gif'];
@@ -39,8 +45,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 if (move_uploaded_file($_FILES['profile_photo']['tmp_name'], $uploadFile)) {
                     $profilePhotoPath = '/images/profile_photos/' . $newFileName;
 
-                    if ($currentProfilePhoto && file_exists(__DIR__ . '/../' . $currentProfilePhoto)) {
-                        unlink(__DIR__ . '/../' . $currentProfilePhoto);
+                    // Delete old photo if it exists and is not the default
+                    if ($currentProfilePhoto && $currentProfilePhoto !== '/NotesApp/public/images/default-avatar.png' && file_exists(__DIR__ . $currentProfilePhoto)) {
+                        unlink(__DIR__ . $currentProfilePhoto);
                     }
                 } else {
                     $message = "Помилка завантаження фото профілю.";
@@ -72,11 +79,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $messageType = 'error';
         } else {
             $message = $userController->changeUserPassword($userId, $currentPassword, $newPassword);
-            $messageType = $message === 'Пароль успішно змінено!' ? 'success' : 'error';
+            $messageType = ($message === 'Пароль успішно змінено!' || $message === 'Пароль успішно змінено.') ? 'success' : 'error';
         }
     }
 }
 
+// Get profile photo URL - this will be null if no photo is set
 $profilePhotoUrl = $userController->getUserProfile($userId);
+
+// Set default path for comparison in the view
+$defaultAvatarPath = '/NotesApp/public/images/default-avatar.png';
+
 include '../src/views/user.php';
 ?>

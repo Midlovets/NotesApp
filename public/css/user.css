@@ -10,27 +10,44 @@ body {
 }
 
 .navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 10;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1.5rem 3rem 1rem 3rem;
+    padding: 1rem 3rem;
+    background: rgba(24, 24, 24, 0.55);
+    backdrop-filter: blur(10px) saturate(1.2);
+    -webkit-backdrop-filter: blur(10px) saturate(1.2);
+    border-bottom: 1.5px solid rgba(255, 217, 36, 0.07);
 }
 
 .logo {
-    font-size: 1.8rem;
-    font-weight: bold;
-    text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 0.2em;
+  font-size: 2.1rem;
+  font-weight: bold;
+  text-decoration: none;
 }
 
 .logo-notes {
-    background: linear-gradient(to right, #AD6000, #FFD924);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
+  background: linear-gradient(to right, #AD6000, #FFD924 80%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
 
 .logo-app {
-    color: #fff;
+  color: #fff;
+}
+
+.cta-buttons {
+    display: flex;
+    gap: 1rem;
 }
 
 .right-nav {
@@ -309,6 +326,34 @@ footer {
     font-size: 1rem;
     margin-top: 40px;
     border-top: 1px solid #333;
+}
+
+.profile-svg-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: #222;
+    transition: box-shadow 0.18s;
+    box-shadow: 0 2px 12px rgba(255, 217, 36, 0.13), 0 2px 8px rgba(0, 0, 0, 0.10);
+    cursor: pointer;
+    position: fixed;
+    top: -2px;
+    right: 97px;
+    z-index: 2000;
+}
+
+.profile-svg-link:active {
+    box-shadow: 0 4px 18px rgba(255, 217, 36, 0.22), 0 4px 16px rgba(0, 0, 0, 0.13);
+}
+
+.profile-svg-icon {
+    display: block;
+    width: 38px;
+    height: 38px;
+    pointer-events: none;
 }
 
 @media (max-width: 900px) {
