@@ -37,10 +37,7 @@ class UserController {
         $success = $this->userModel->updateProfile($userId, $newUsername, $profilePhotoPath);          
         return $success ? "Профіль успішно оновлено!" : "Не вдалося оновити профіль.";     
     }      
-    
-    public function getUserProfile($userId) {         
-        return $this->userModel->getUserProfile($userId);     
-    }      
+      
     
     public function changeUserPassword($userId, $currentPassword, $newPassword) {         
         return $this->userModel->changePassword($userId, $currentPassword, $newPassword);              
@@ -52,4 +49,8 @@ class UserController {
         header("Location: login.php");         
         exit;     
     } 
+    
+    public function getUserProfile($userId) {
+        return $this->userModel->getProfile($userId);
+    }
 }

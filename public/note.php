@@ -20,7 +20,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $noteId = isset($_GET['id']) ? intval($_GET['id']) : 0;
     $userId = $_SESSION['user_id'];
     if (isset($_POST['save'])) {
-        // Если нет id, значит создаём новую
         if (!$noteId) {
             $title = trim($_POST['title']);
             $content = trim($_POST['content']);
@@ -54,11 +53,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-// Если есть id — редактирование, если нет — новая нотатка
 if (isset($_GET['id']) && is_numeric($_GET['id'])) {
     $controller->showNote($_GET['id']);
 } else {
-    // Показать пустую форму для новой нотатки
     $note = [];
     $tags = [];
     $categories = (new Category($pdo))->getAllCategories();

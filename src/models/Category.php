@@ -7,20 +7,17 @@ class Category {
         $this->pdo = $pdo;
     }
 
-    // Отримання інформації про категорію за її ID
     public function getCategoryById($categoryId) {
         $stmt = $this->pdo->prepare("SELECT * FROM categories WHERE id = ?");
         $stmt->execute([$categoryId]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    // Отримання всіх категорій
     public function getAllCategories() {
         $stmt = $this->pdo->query("SELECT * FROM categories");
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    // Отримання нотаток за категорією
     public function getNotesByCategory($categoryId) {
         $stmt = $this->pdo->prepare("
             SELECT n.* 
@@ -32,7 +29,6 @@ class Category {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    // Перевірка, чи існує категорія за назвою
     public function categoryExists($name) {
         $stmt = $this->pdo->prepare("SELECT COUNT(*) FROM categories WHERE name = ?");
         $stmt->execute([$name]);

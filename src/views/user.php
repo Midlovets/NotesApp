@@ -26,7 +26,8 @@
             <span class="logo-notes">Notes</span>
             <span class="logo-app">App</span>
         </a>
-        <div class="cta-buttons">
+        <div class="cta-buttons" style="position: relative;">
+            <!-- <a href="notes.php" class="navbar-link" style="color:#FFD924; font-weight:500; margin-right:1.2em; text-decoration:none; font-size:1.13rem;">Мої нотатки</a> -->
             <div class="profile-svg-link" id="profileMenuBtn" title="Профіль" tabindex="0" style="z-index: 2000; position: relative;">
                 <svg class="profile-svg-icon" width="38" height="38" viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <circle cx="19" cy="19" r="18" fill="url(#profileGradient)" stroke="#FFD924" stroke-width="1.5"/>
@@ -40,7 +41,8 @@
                     </defs>
                 </svg>
             </div>
-            <div id="profileDropdown" style="display:none; position:absolute; top:48px; right:0; background:rgba(24,24,24,0.97); border:1.5px solid #FFD92444; border-radius:12px; min-width:160px; box-shadow:0 4px 16px rgba(0,0,0,0.18); z-index:1999;">
+            <div id="profileDropdown" style="display:none; position:absolute; top:48px; right:0; background:rgba(24,24,24,0.97); border:1.5px solid #FFD92444; border-radius:12px; min-width:160px; box-shadow:0 4px 16px rgba(0,0,0,0.18); z-index:100;">
+                <a href="notes.php" style="display:block; padding:12px 18px; color:#FFD924; text-decoration:none; font-weight:500;">Мої нотатки</a>
                 <a href="/public/user.php" style="display:block; padding:12px 18px; color:#FFD924; text-decoration:none; font-weight:500;">Профіль</a>
                 <a href="/public/logout.php" style="display:block; padding:12px 18px; color:#fff; text-decoration:none; font-weight:500;">Вийти</a>
             </div>

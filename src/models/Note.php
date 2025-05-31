@@ -1,4 +1,3 @@
-<!-- // src/models/Note.php -->
 <?php
 
 class Note {
@@ -8,7 +7,6 @@ class Note {
         $this->pdo = $pdo;
     }
 
-    // Получить все нотатки пользователя (или по категории)
     public function getAllNotesByCategory($categoryId) {
         $stmt = $this->pdo->prepare("
             SELECT n.* 
@@ -21,7 +19,6 @@ class Note {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    // Получить одну нотатку по id
     public function getNoteById($id) {
         $stmt = $this->pdo->prepare("SELECT * FROM notes WHERE id = ?");
         $stmt->execute([$id]);
@@ -29,7 +26,6 @@ class Note {
         return $note;
     }
 
-    // Получить теги для нотатки
     public function getTags($noteId) {
         $stmt = $this->pdo->prepare("
             SELECT t.id, t.name
@@ -41,7 +37,6 @@ class Note {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    // Поиск нотаток по ключевому слову (в названии, содержании или тегах)
     public function searchNotes($keyword, $userId = null, $categoryId = null) {
         $query = "
             SELECT DISTINCT n.*
@@ -78,7 +73,6 @@ class Note {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    // Получить все теги пользователя
     public function getAllTags($userId) {
         $stmt = $this->pdo->prepare("
             SELECT DISTINCT t.id, t.name
@@ -92,7 +86,6 @@ class Note {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    // Получить все нотатки пользователя
     public function getAllNotesByUser($userId) {
         $stmt = $this->pdo->prepare("
             SELECT * FROM notes
@@ -103,20 +96,16 @@ class Note {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    // Обновить нотатку
     public function updateNote($noteId, $userId, $title, $content) {
         $stmt = $this->pdo->prepare("UPDATE notes SET title = ?, content = ?, updated_at = NOW() WHERE id = ? AND user_id = ?");
         $stmt->execute([$title, $content, $noteId, $userId]);
     }
 
-    // Обновить теги нотатки
     public function updateNoteTags($noteId, $tags) {
-        // Удалить старые связи
         $this->pdo->prepare("DELETE FROM note_tags WHERE note_id = ?")->execute([$noteId]);
         foreach ($tags as $tagName) {
             $tagName = trim($tagName);
             if ($tagName === '') continue;
-            // Найти или создать тег
             $stmt = $this->pdo->prepare("SELECT id FROM tags WHERE name = ?");
             $stmt->execute([$tagName]);
             $tagId = $stmt->fetchColumn();
@@ -124,33 +113,26 @@ class Note {
                 $this->pdo->prepare("INSERT INTO tags (name) VALUES (?)")->execute([$tagName]);
                 $tagId = $this->pdo->lastInsertId();
             }
-            // Привязать тег к нотатке
             $this->pdo->prepare("INSERT IGNORE INTO note_tags (note_id, tag_id) VALUES (?, ?)")->execute([$noteId, $tagId]);
         }
     }
 
-    // Получить id категории для нотатки
     public function getNoteCategoryId($noteId) {
         $stmt = $this->pdo->prepare("SELECT category_id FROM note_categories WHERE note_id = ?");
         $stmt->execute([$noteId]);
         return $stmt->fetchColumn();
     }
 
-    // Обновить категорию нотатки
     public function updateNoteCategory($noteId, $categoryId) {
-        // Удалить старую связь
         $this->pdo->prepare("DELETE FROM note_categories WHERE note_id = ?")->execute([$noteId]);
-        // Добавить новую связь
         $this->pdo->prepare("INSERT INTO note_categories (note_id, category_id) VALUES (?, ?)")->execute([$noteId, $categoryId]);
     }
 
-    // Удалить нотатку
     public function deleteNote($noteId, $userId) {
         $stmt = $this->pdo->prepare("DELETE FROM notes WHERE id = ? AND user_id = ?");
         $stmt->execute([$noteId, $userId]);
     }
 
-    // Создать новую нотатку
     public function createNote($userId, $title, $content) {
         $stmt = $this->pdo->prepare("INSERT INTO notes (user_id, title, content, created_at, updated_at) VALUES (?, ?, ?, NOW(), NOW())");
         $stmt->execute([$userId, $title, $content]);

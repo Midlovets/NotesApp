@@ -84,10 +84,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-// Get profile photo URL - this will be null if no photo is set
+
 $profilePhotoUrl = $userController->getUserProfile($userId);
 
-// Set default path for comparison in the view
 $defaultAvatarPath = '/NotesApp/public/images/default-avatar.png';
 
 include '../src/views/user.php';

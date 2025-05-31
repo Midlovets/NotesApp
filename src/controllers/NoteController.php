@@ -1,10 +1,9 @@
-<!-- // src/controllers/NoteController.php -->
 
 
 <?php
 
-include '../src/models/Note.php';
-include '../src/models/Category.php';
+require_once __DIR__ . '/../models/Note.php';
+require_once __DIR__ . '/../models/Category.php';
 
 class NoteController {
     private $noteModel;
@@ -17,7 +16,6 @@ class NoteController {
 
     public function showAllNotes($userId) {
         $notes = $this->noteModel->getAllNotesByUser($userId);
-        // Добавляем теги к каждой нотатке
         foreach ($notes as &$note) {
             $note['tags'] = $this->noteModel->getTags($note['id']);
         }
@@ -45,7 +43,6 @@ class NoteController {
 
     public function searchNotes($keyword, $userId = null, $categoryId = null) {
         $results = $this->noteModel->searchNotes($keyword, $userId, $categoryId);
-        // Добавляем теги к каждой найденной заметке
         foreach ($results as &$note) {
             $note['tags'] = $this->noteModel->getTags($note['id']);
         }
@@ -55,10 +52,8 @@ class NoteController {
     }
 
     public function saveNote($noteId, $userId, $title, $content, $tags = [], $categoryId = null) {
-        // Обновить саму нотатку
         $this->noteModel->updateNote($noteId, $userId, $title, $content);
 
-        // Обновить теги
         $this->noteModel->updateNoteTags($noteId, $tags);
         if ($categoryId) {
             $this->noteModel->updateNoteCategory($noteId, $categoryId);
@@ -77,5 +72,9 @@ class NoteController {
 
     public function deleteNote($noteId, $userId) {
         $this->noteModel->deleteNote($noteId, $userId);
+    }
+
+    public function getNoteModel() {
+        return $this->noteModel;
     }
 }

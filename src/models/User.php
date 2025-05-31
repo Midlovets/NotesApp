@@ -43,13 +43,8 @@ class User {
 
     public function updateProfile($userId, $name, $profilePhoto = null) {
         try {
-            if ($profilePhoto) {
-                $stmt = $this->pdo->prepare("UPDATE users SET name = ?, profile_photo = ? WHERE id = ?");
-                $stmt->execute([$name, $profilePhoto, $userId]);
-            } else {
-                $stmt = $this->pdo->prepare("UPDATE users SET name = ? WHERE id = ?");
-                $stmt->execute([$name, $userId]);
-            }
+            $stmt = $this->pdo->prepare("UPDATE users SET name = ? WHERE id = ?");
+            $stmt->execute([$name, $userId]);
             return true;
         } catch (PDOException $e) {
             error_log('Помилка оновлення профілю: ' . $e->getMessage());
@@ -63,7 +58,8 @@ class User {
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
         
         if ($user) {
-            if (password_get_info($user['password'])['algo']) {
+            $passwordInfo = password_get_info($user['password']);
+            if ($passwordInfo['algo']) {
                 if (password_verify($currentPassword, $user['password'])) {
                     $hashedNewPassword = password_hash($newPassword, PASSWORD_DEFAULT);
                     $updateStmt = $this->pdo->prepare("UPDATE users SET password = ? WHERE id = ?");
@@ -83,19 +79,10 @@ class User {
         return "Неправильний поточний пароль.";
     }
     
-    public function getUserProfile($userId) {
-        try {
-            $stmt = $this->pdo->prepare("SELECT profile_photo FROM users WHERE id = ?");
-            $stmt->execute([$userId]);
-            $user = $stmt->fetch(PDO::FETCH_ASSOC);
-            
-            // Return the actual profile photo path or null if not set
-            // This way the view can decide whether to show SVG or image
-            return $user ? $user['profile_photo'] : null;
-        } catch (PDOException $e) {
-            error_log('Помилка отримання профілю: ' . $e->getMessage());
-            return null;
-        }
+    public function getProfile($userId) {
+        $stmt = $this->pdo->prepare("SELECT id, name, email FROM users WHERE id = ?");
+        $stmt->execute([$userId]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
     public function logout() {
