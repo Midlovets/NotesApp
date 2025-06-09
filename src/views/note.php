@@ -36,6 +36,7 @@
             </div>
         </div>
     </nav>
+    
     <form class="details-main" method="post" action="note.php<?= isset($note['id']) ? '?id=' . (int)$note['id'] : '' ?>" id="noteForm" autocomplete="off">
         <div class="details-header">
             <input type="text" class="details-title-input" name="title" value="<?= isset($note['title']) ? htmlspecialchars($note['title']) : '' ?>" required>
