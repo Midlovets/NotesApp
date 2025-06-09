@@ -92,6 +92,7 @@
                                         <path d="M16.1213 5.87868C16.5118 5.48816 16.5118 4.85499 16.1213 4.46447L15.5355 3.87868C15.145 3.48816 14.5118 3.48816 14.1213 3.87868L6 12V15H9L16.1213 7.87868Z" stroke="#FFD924" stroke-width="2"/>
                                     </svg>
                                 </a>
+                                
                                 <form method="post" action="/public/note.php?id=<?= $note['id']; ?>" style="display:inline;">
                                     <button type="submit" name="delete" class="note-action-btn" title="Видалити" onclick="return confirm('Видалити нотатку?');" style="background:none; border:none; padding:0; display: flex; align-items: center; justify-content: center; width: 38px; height: 38px;">
                                         <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
