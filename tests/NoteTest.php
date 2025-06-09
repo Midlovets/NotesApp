@@ -13,6 +13,7 @@ class NoteTest extends TestCase
         $this->pdo = new PDO('mysql:host=localhost;dbname=notesapp_test;charset=utf8', 'root', '');
         $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
+        
         $this->pdo->exec("SET FOREIGN_KEY_CHECKS=0");
         $this->pdo->exec("TRUNCATE TABLE note_tags");
         $this->pdo->exec("TRUNCATE TABLE note_categories");
